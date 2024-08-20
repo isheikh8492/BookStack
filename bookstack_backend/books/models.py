@@ -4,8 +4,8 @@ from django.db import models
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    notes = models.TextField(blank=True, null=True)
-    is_read = models.BooleanField(default=False)
+    status = models.CharField(max_length=9, default="In Queue")
+    priority = models.CharField(max_length=6, default="Low")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
