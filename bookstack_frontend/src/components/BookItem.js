@@ -1,26 +1,58 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
-function BookItem({ book, onDelete, onToggleRead }) {
+const statusColors = {
+  "In Queue": "bg-yellow-500",
+  Reading: "bg-blue-500",
+  Completed: "bg-green-500",
+};
+
+const priorityColors = {
+  Low: "bg-green-500",
+  Medium: "bg-yellow-500",
+  High: "bg-red-500",
+};
+
+function BookItem({ book, onDelete, onChangeStatus }) {
+  const cycleStatus = () => {
+    const statuses = ["In Queue", "Reading", "Completed"];
+    const currentIndex = statuses.indexOf(book.status);
+    const nextIndex = (currentIndex + 1) % statuses.length;
+    onChangeStatus(book.id, statuses[nextIndex]);
+  };
+
   return (
-    <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-md mb-4">
-      <div>
-        <h3 className="text-lg font-semibold">{book.title}</h3>
-        <p className="text-sm text-gray-600">{book.author}</p>
-      </div>
-      <div className="flex items-center space-x-4">
-        <input
-          type="checkbox"
-          checked={book.isRead}
-          onChange={() => onToggleRead(book.id)}
-          className="form-checkbox h-5 w-5 text-blue-600"
-        />
+    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+      <td className="py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
+        {book.title}
+      </td>
+      <td className="py-4 px-6">{book.author}</td>
+      <td className="py-4 px-6">
+        <span
+          className={`inline-block px-2 py-1 text-white text-sm font-semibold rounded ${
+            priorityColors[book.priority]
+          }`}
+        >
+          {book.priority}
+        </span>
+      </td>
+      <td className="py-4 px-6">
+        <span
+          onClick={cycleStatus}
+          className={`inline-block px-2 py-1 text-white text-sm font-semibold rounded cursor-pointer transition-transform transform hover:scale-105 ${
+            statusColors[book.status]
+          }`}
+        >
+          {book.status}
+        </span>
+      </td>
+      <td className="py-4 px-6 text-right">
         <FaTrashAlt
-          className="text-red-500 cursor-pointer"
+          className="text-red-500 cursor-pointer hover:scale-105 transition-transform"
           onClick={() => onDelete(book.id)}
         />
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 }
 
