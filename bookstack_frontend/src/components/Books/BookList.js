@@ -5,11 +5,26 @@ import AddBookModal from "./AddBookModal"; // Import the AddBookModal
 import axios from "axios";
 
 function BookList({ user }) {
-  // Retrieve the saved tab state from localStorage or default to "toRead"
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "toRead"
   );
-  const [books, setBooks] = useState(user.books || []);
+  const [books, setBooks] = useState([]);
+
+  // Fetch books on component mount
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/books/", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        setBooks(response.data);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []); // Empty dependency array ensures this runs once when component mounts
 
   const addBookAsync = async (newBookDetails) => {
     const response = await axios.post(
