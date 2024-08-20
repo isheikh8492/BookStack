@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { Link } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize the navigate function
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/login", {
+      const response = await axios.post("http://127.0.0.1:8000/api/token/", {
         email,
         password,
       });

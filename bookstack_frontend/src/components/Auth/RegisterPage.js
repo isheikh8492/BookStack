@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom"; // Import useNavigate and 
 function RegisterPage({ onRegister }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState(""); // Add username state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,15 +22,13 @@ function RegisterPage({ onRegister }) {
 
     try {
       // Replace with your backend API URL
-      const response = await axios.post(
-        "https://your-backend-api.com/register",
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("http://127.0.0.1:8000/api/register/", {
+        first_name: firstName, // Adjust key names to match Django User model fields
+        last_name: lastName,
+        username: username, // Include username in the payload
+        email,
+        password,
+      });
 
       // Save the JWT token or session
       localStorage.setItem("token", response.data.token);
@@ -76,6 +75,16 @@ function RegisterPage({ onRegister }) {
                 required
               />
             </div>
+          </div>
+          <div>
+            <label className="block text-gray-700 font-medium">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
           </div>
           <div>
             <label className="block text-gray-700 font-medium">Email</label>

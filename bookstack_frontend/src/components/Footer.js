@@ -27,4 +27,5 @@ export default Footer;
 
 
 // TODO: Add a button to toggle between ascending and descending order
-// TODO: Add a Book Detail Modal to display book details
+// TODO: Users should be able to be registered on frontend and Django should have user info on backend
+// TODO: Link books to users so that each user can have their own list of books
