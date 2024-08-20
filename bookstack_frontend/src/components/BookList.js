@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import BookTable from "./BookTable";
 import { FaPlus } from "react-icons/fa";
+import AddBookModal from "./AddBookModal"; // Import the AddBookModal
 
 function BookList() {
   const [books, setBooks] = useState([
@@ -8,7 +9,6 @@ function BookList() {
       id: 1,
       title: "Book 1",
       author: "Author 1",
-      isRead: false,
       priority: "High",
       status: "In Queue",
     },
@@ -16,18 +16,10 @@ function BookList() {
       id: 2,
       title: "Book 2",
       author: "Author 2",
-      isRead: true,
       priority: "Medium",
       status: "Reading",
     },
   ]);
-
-  const [newBook, setNewBook] = useState({
-    title: "",
-    author: "",
-    priority: "Low",
-    status: "In Queue",
-  });
 
   const [filter, setFilter] = useState({
     title: "",
@@ -36,12 +28,13 @@ function BookList() {
   });
 
   const [activeTab, setActiveTab] = useState("toRead");
-  const [sortField, setSortField] = useState("title"); // Define sortField
-  const [sortOrder, setSortOrder] = useState("asc"); // Define sortOrder
+  const [sortField, setSortField] = useState("title");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  const addBook = () => {
-    setBooks([...books, { id: Date.now(), ...newBook, isRead: false }]);
-    setNewBook({ title: "", author: "", priority: "Low", status: "In Queue" });
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for controlling modal visibility
+
+  const addBook = (newBookDetails) => {
+    setBooks([...books, { id: Date.now(), ...newBookDetails, isRead: false }]);
   };
 
   const deleteBook = (id) => {
@@ -149,7 +142,7 @@ function BookList() {
 
         {/* Add New Book Button */}
         <button
-          onClick={addBook}
+          onClick={() => setIsModalOpen(true)} // Open modal on click
           className="bg-blue-500 text-white rounded-md hover:bg-blue-600 w-12 h-12 flex items-center justify-center"
         >
           <FaPlus />
@@ -161,6 +154,13 @@ function BookList() {
         books={sortBooks(filteredBooks)}
         onDelete={deleteBook}
         onChangeStatus={changeStatus}
+      />
+
+      {/* Add Book Modal */}
+      <AddBookModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={addBook}
       />
     </div>
   );
