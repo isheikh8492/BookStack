@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookTable from "./BookTable";
 import { FaPlus } from "react-icons/fa";
 import AddBookModal from "./AddBookModal"; // Import the AddBookModal
 import axios from "axios";
 
 function BookList({ user }) {
+  // Retrieve the saved tab state from localStorage or default to "toRead"
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("activeTab") || "toRead"
+  );
   const [books, setBooks] = useState(user.books || []);
 
   const addBookAsync = async (newBookDetails) => {
@@ -43,7 +47,6 @@ function BookList({ user }) {
     priority: "",
   });
 
-  const [activeTab, setActiveTab] = useState("toRead");
   const [sortField, setSortField] = useState("title");
   const [sortOrder, setSortOrder] = useState("asc");
 
@@ -98,6 +101,11 @@ function BookList({ user }) {
     );
   });
 
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab); // Save the active tab state to localStorage
+  };
+
   return (
     <div className="container mx-auto p-4">
       {/* Tabs */}
@@ -108,7 +116,7 @@ function BookList({ user }) {
               ? "text-white bg-blue-600"
               : "text-blue-600 bg-white"
           } rounded-md`}
-          onClick={() => setActiveTab("toRead")}
+          onClick={() => handleTabChange("toRead")}
         >
           Books To Read
         </button>
@@ -118,7 +126,7 @@ function BookList({ user }) {
               ? "text-white bg-blue-600"
               : "text-blue-600 bg-white"
           } rounded-md`}
-          onClick={() => setActiveTab("read")}
+          onClick={() => handleTabChange("read")}
         >
           Books Read
         </button>
