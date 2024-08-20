@@ -27,3 +27,4 @@ export default Footer;
 
 
 // TODO: Add a button to toggle between ascending and descending order
+// TODO: Add a Book Detail Modal to display book details

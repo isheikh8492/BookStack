@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import ConfirmationModal from "./ConfirmationModal"; // Import the modal
+import BookDetailsModal from "./BookDetailsModal"; // Import the details modal
 
 const statusColors = {
   "In Queue": "bg-yellow-500",
@@ -16,6 +17,7 @@ const priorityColors = {
 
 function BookItem({ book, onDelete, onChangeStatus, onChangePriority }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   // Function to cycle through statuses
   const cycleStatus = () => {
@@ -42,6 +44,10 @@ function BookItem({ book, onDelete, onChangeStatus, onChangePriority }) {
     setIsModalOpen(false);
   };
 
+  const handleTitleClick = () => {
+    setIsDetailsModalOpen(true);
+  };
+
   const tagStyles =
     "inline-block w-24 p-1 text-center text-white text-sm font-semibold rounded cursor-pointer";
 
@@ -50,16 +56,18 @@ function BookItem({ book, onDelete, onChangeStatus, onChangePriority }) {
       <tr className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-shadow shadow-sm hover:shadow-md rounded-lg">
         <td className="py-4 px-6 text-center text-gray-900 whitespace-nowrap dark:text-white">
           <div
-            className="overflow-hidden text-ellipsis whitespace-nowrap max-w-xs"
+            className="overflow-hidden text-ellipsis whitespace-nowrap max-w-xs cursor-pointer"
             title={book.title}
+            onClick={handleTitleClick}
           >
             {book.title}
           </div>
         </td>
         <td className="py-4 px-6 text-center">
           <div
-            className="overflow-hidden text-ellipsis whitespace-nowrap max-w-xs"
+            className="overflow-hidden text-ellipsis whitespace-nowrap max-w-xs cursor-pointer"
             title={book.author}
+            onClick={handleTitleClick}
           >
             {book.author}
           </div>
@@ -94,6 +102,12 @@ function BookItem({ book, onDelete, onChangeStatus, onChangePriority }) {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmDelete}
+      />
+      {/* Modal for displaying book details */}
+      <BookDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        book={book}
       />
     </>
   );
