@@ -1,7 +1,7 @@
 import React from "react";
 import BookItem from "./BookItem";
 
-function BookTable({ books, onDelete, onChangeStatus }) {
+function BookTable({ books, onDelete, onChangeStatus, onChangePriority }) {
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -29,6 +29,7 @@ function BookTable({ books, onDelete, onChangeStatus }) {
               book={book}
               onDelete={onDelete}
               onChangeStatus={onChangeStatus}
+              onChangePriority={onChangePriority}
             />
           ))}
         </tbody>

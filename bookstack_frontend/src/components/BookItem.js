@@ -14,14 +14,23 @@ const priorityColors = {
   High: "bg-red-500",
 };
 
-function BookItem({ book, onDelete, onChangeStatus }) {
+function BookItem({ book, onDelete, onChangeStatus, onChangePriority }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Function to cycle through statuses
   const cycleStatus = () => {
     const statuses = ["In Queue", "Reading", "Completed"];
     const currentIndex = statuses.indexOf(book.status);
     const nextIndex = (currentIndex + 1) % statuses.length;
     onChangeStatus(book.id, statuses[nextIndex]);
+  };
+
+  // Function to cycle through priorities
+  const cyclePriority = () => {
+    const priorities = ["Low", "Medium", "High"];
+    const currentIndex = priorities.indexOf(book.priority);
+    const nextIndex = (currentIndex + 1) % priorities.length;
+    onChangePriority(book.id, priorities[nextIndex]);
   };
 
   const handleDeleteClick = () => {
@@ -34,7 +43,7 @@ function BookItem({ book, onDelete, onChangeStatus }) {
   };
 
   const tagStyles =
-    "inline-block w-24 p-1 text-center text-white text-sm font-semibold rounded";
+    "inline-block w-24 p-1 text-center text-white text-sm font-semibold rounded cursor-pointer";
 
   return (
     <>
@@ -44,7 +53,10 @@ function BookItem({ book, onDelete, onChangeStatus }) {
         </td>
         <td className="py-4 px-6 text-center">{book.author}</td>
         <td className="py-4 px-6 text-center">
-          <span className={`${tagStyles} ${priorityColors[book.priority]}`}>
+          <span
+            onClick={cyclePriority}
+            className={`${tagStyles} ${priorityColors[book.priority]}`}
+          >
             {book.priority}
           </span>
         </td>
@@ -53,7 +65,7 @@ function BookItem({ book, onDelete, onChangeStatus }) {
             onClick={cycleStatus}
             className={`${tagStyles} ${
               statusColors[book.status]
-            } cursor-pointer transition-transform transform hover:scale-105`}
+            } transition-transform transform hover:scale-105`}
           >
             {book.status}
           </span>

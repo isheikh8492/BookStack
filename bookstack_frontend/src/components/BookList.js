@@ -49,6 +49,15 @@ function BookList() {
     );
   };
 
+  const changePriority = (id, newPriority) => {
+    setBooks(
+      books.map((book) =>
+        book.id === id ? { ...book, priority: newPriority } : book
+      )
+    );
+  };
+
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilter({
@@ -154,6 +163,7 @@ function BookList() {
         books={sortBooks(filteredBooks)}
         onDelete={deleteBook}
         onChangeStatus={changeStatus}
+        onChangePriority={changePriority}
       />
 
       {/* Add Book Modal */}
