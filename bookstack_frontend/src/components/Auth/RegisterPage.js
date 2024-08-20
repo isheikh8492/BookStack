@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom"; // Import useNavigate and Link from react-router-dom
+import { useNavigate, Link } from "react-router-dom";
 
 function RegisterPage({ onRegister }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState(""); // Add username state
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -21,19 +21,15 @@ function RegisterPage({ onRegister }) {
     }
 
     try {
-      // Replace with your backend API URL
       const response = await axios.post("http://127.0.0.1:8000/api/register/", {
-        first_name: firstName, // Adjust key names to match Django User model fields
+        first_name: firstName,
         last_name: lastName,
-        username: username, // Include username in the payload
+        username: username,
         email,
         password,
       });
 
-      // Save the JWT token or session
       localStorage.setItem("token", response.data.token);
-
-      // Call the onRegister callback to update the app state
       onRegister(response.data.user);
     } catch (err) {
       setError("Registration failed, please try again.");
@@ -76,25 +72,29 @@ function RegisterPage({ onRegister }) {
               />
             </div>
           </div>
-          <div>
-            <label className="block text-gray-700 font-medium">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-700 font-medium">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
