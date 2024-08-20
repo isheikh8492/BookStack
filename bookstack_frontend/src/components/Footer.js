@@ -26,6 +26,4 @@ function Footer() {
 export default Footer;
 
 
-// TODO: Find a way to make title and author columns have same width despite long content
 // TODO: Add a button to toggle between ascending and descending order
-// TODO: Add auth system to the app, Log out button can be on the Navbar on the right

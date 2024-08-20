@@ -49,9 +49,21 @@ function BookItem({ book, onDelete, onChangeStatus, onChangePriority }) {
     <>
       <tr className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-shadow shadow-sm hover:shadow-md rounded-lg">
         <td className="py-4 px-6 text-center text-gray-900 whitespace-nowrap dark:text-white">
-          {book.title}
+          <div
+            className="overflow-hidden text-ellipsis whitespace-nowrap"
+            title={book.title}
+          >
+            {book.title}
+          </div>
         </td>
-        <td className="py-4 px-6 text-center">{book.author}</td>
+        <td className="py-4 px-6 text-center">
+          <div
+            className="overflow-hidden text-ellipsis whitespace-nowrap"
+            title={book.author}
+          >
+            {book.author}
+          </div>
+        </td>
         <td className="py-4 px-6 text-center">
           <span
             onClick={cyclePriority}
