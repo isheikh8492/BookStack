@@ -18,7 +18,7 @@ function LoginPage({ onLogin }) {
 
       localStorage.setItem("token", response.data.access);
 
-      // Fetch user info from your API
+      // Fetch user info immediately after logging in
       const userResponse = await axios.get("http://127.0.0.1:8000/api/user/", {
         headers: { Authorization: `Bearer ${response.data.access}` },
       });

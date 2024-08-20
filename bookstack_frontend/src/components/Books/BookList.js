@@ -2,24 +2,21 @@ import React, { useState } from "react";
 import BookTable from "./BookTable";
 import { FaPlus } from "react-icons/fa";
 import AddBookModal from "./AddBookModal"; // Import the AddBookModal
+import axios from "axios";
 
 function BookList({ user }) {
-  const [books, setBooks] = useState([
-    {
-      id: 1,
-      title: "Book 1",
-      author: "Author 1",
-      priority: "High",
-      status: "In Queue",
-    },
-    {
-      id: 2,
-      title: "Book 2",
-      author: "Author 2",
-      priority: "Medium",
-      status: "Reading",
-    },
-  ]);
+  const [books, setBooks] = useState(user.books || []);
+
+  const addBookAsync = async (newBookDetails) => {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/books/",
+      newBookDetails,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    );
+    setBooks([...books, response.data]);
+  };
 
   const [filter, setFilter] = useState({
     title: "",
