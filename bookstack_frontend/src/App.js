@@ -18,13 +18,24 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Optionally, fetch user info from your API
+      // Fetch user info and books from your API
       const fetchUserInfo = async () => {
         try {
-          const response = await axios.get("http://127.0.0.1:8000/api/user/", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data); // Update with actual user data
+          const userResponse = await axios.get(
+            "http://127.0.0.1:8000/api/user/",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const booksResponse = await axios.get(
+            "http://127.0.0.1:8000/api/books/",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          setUser({ ...userResponse.data, books: booksResponse.data });
         } catch (err) {
           console.error("Failed to fetch user info", err);
           setUser(null);

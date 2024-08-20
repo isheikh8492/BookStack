@@ -10,9 +10,7 @@ class BookViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Only return the books that belong to the authenticated user
         return Book.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        # Automatically assign the book to the logged-in user
         serializer.save(user=self.request.user)

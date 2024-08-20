@@ -18,6 +18,25 @@ function BookList({ user }) {
     setBooks([...books, response.data]);
   };
 
+  const updateBookAsync = async (id, updatedDetails) => {
+    try {
+      await axios.patch(
+        `http://127.0.0.1:8000/api/books/${id}/`,
+        updatedDetails,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      setBooks(
+        books.map((book) =>
+          book.id === id ? { ...book, ...updatedDetails } : book
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update book:", error);
+    }
+  };
+
   const [filter, setFilter] = useState({
     title: "",
     author: "",
@@ -31,7 +50,7 @@ function BookList({ user }) {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for controlling modal visibility
 
   const addBook = (newBookDetails) => {
-    setBooks([...books, { id: Date.now(), ...newBookDetails, isRead: false }]);
+    addBookAsync(newBookDetails); // Store in backend and update state
   };
 
   const deleteBook = (id) => {
@@ -39,21 +58,12 @@ function BookList({ user }) {
   };
 
   const changeStatus = (id, newStatus) => {
-    setBooks(
-      books.map((book) =>
-        book.id === id ? { ...book, status: newStatus } : book
-      )
-    );
+    updateBookAsync(id, { status: newStatus });
   };
 
   const changePriority = (id, newPriority) => {
-    setBooks(
-      books.map((book) =>
-        book.id === id ? { ...book, priority: newPriority } : book
-      )
-    );
+    updateBookAsync(id, { priority: newPriority });
   };
-
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
