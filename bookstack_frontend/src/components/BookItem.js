@@ -21,27 +21,26 @@ function BookItem({ book, onDelete, onChangeStatus }) {
     onChangeStatus(book.id, statuses[nextIndex]);
   };
 
+  const tagStyles =
+    "inline-block w-24 p-1 text-center text-white text-sm font-semibold rounded";
+
   return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <td className="py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
+    <tr className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-shadow shadow-sm hover:shadow-md rounded-lg">
+      <td className="py-4 px-6 text-center text-gray-900 whitespace-nowrap dark:text-white">
         {book.title}
       </td>
-      <td className="py-4 px-6">{book.author}</td>
-      <td className="py-4 px-6">
-        <span
-          className={`inline-block px-2 py-1 text-white text-sm font-semibold rounded ${
-            priorityColors[book.priority]
-          }`}
-        >
+      <td className="py-4 px-6 text-center">{book.author}</td>
+      <td className="py-4 px-6 text-center">
+        <span className={`${tagStyles} ${priorityColors[book.priority]}`}>
           {book.priority}
         </span>
       </td>
-      <td className="py-4 px-6">
+      <td className="py-4 px-6 text-center">
         <span
           onClick={cycleStatus}
-          className={`inline-block px-2 py-1 text-white text-sm font-semibold rounded cursor-pointer transition-transform transform hover:scale-105 ${
+          className={`${tagStyles} ${
             statusColors[book.status]
-          }`}
+          } cursor-pointer transition-transform transform hover:scale-105`}
         >
           {book.status}
         </span>
