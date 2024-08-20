@@ -3,7 +3,7 @@ import BookTable from "./BookTable";
 import { FaPlus } from "react-icons/fa";
 import AddBookModal from "./AddBookModal"; // Import the AddBookModal
 
-function BookList() {
+function BookList({ user }) {
   const [books, setBooks] = useState([
     {
       id: 1,

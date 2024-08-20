@@ -1,22 +1,33 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { useNavigate, Link } from "react-router-dom";
 
 function LoginPage({ onLogin }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/token/", {
-        email,
+        username,
         password,
       });
 
-      localStorage.setItem("token", response.data.token);
-      onLogin(response.data.user);
+      localStorage.setItem("token", response.data.access);
+
+      // Fetch user info from your API
+      const userResponse = await axios.get("http://127.0.0.1:8000/api/user/", {
+        headers: { Authorization: `Bearer ${response.data.access}` },
+      });
+
+      // Pass the retrieved user data to the parent component
+      onLogin(userResponse.data);
+
+      // Redirect to /books
+      navigate("/books");
     } catch (err) {
       setError("Invalid credentials, please try again.");
     }
@@ -24,7 +35,7 @@ function LoginPage({ onLogin }) {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 transform transition-all hover:scale-105">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md transform transition-all hover:scale-105">
         <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
           Welcome Back
         </h2>
@@ -33,11 +44,11 @@ function LoginPage({ onLogin }) {
         )}
         <form onSubmit={handleLogin}>
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium">Email</label>
+            <label className="block text-gray-700 font-medium">Username</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
