@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  backend:
+    build: ./bookstack_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./bookstack_backend:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  frontend:
+    build: ./bookstack_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./bookstack_frontend:/app
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: bookstack_db
+      POSTGRES_USER: bookstack_admin
+      POSTGRES_PASSWORD: B00k$tack123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

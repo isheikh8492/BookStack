@@ -3,6 +3,7 @@ import BookTable from "./BookTable";
 import { FaPlus } from "react-icons/fa";
 import AddBookModal from "./AddBookModal"; // Import the AddBookModal
 import axios from "axios";
+import { API_BASE_URL } from "../../constants/util";
 
 function BookList({ user }) {
   const [activeTab, setActiveTab] = useState(
@@ -14,7 +15,7 @@ function BookList({ user }) {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/books/", {
+        const response = await axios.get("http://localhost:8000/api/books/", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setBooks(response.data);
@@ -28,7 +29,7 @@ function BookList({ user }) {
 
   const addBookAsync = async (newBookDetails) => {
     const response = await axios.post(
-      "http://127.0.0.1:8000/api/books/",
+      "http://localhost:8000/api/books/",
       newBookDetails,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -39,13 +40,9 @@ function BookList({ user }) {
 
   const updateBookAsync = async (id, updatedDetails) => {
     try {
-      await axios.patch(
-        `http://127.0.0.1:8000/api/books/${id}/`,
-        updatedDetails,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      await axios.patch("http://localhost:8000/api/books/" + id + "/", updatedDetails, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       setBooks(
         books.map((book) =>
           book.id === id ? { ...book, ...updatedDetails } : book

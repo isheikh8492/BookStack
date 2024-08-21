@@ -21,7 +21,7 @@ function RegisterPage({ onRegister }) {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register/", {
+      const response = await axios.post("http://localhost:8000/api/register/", {
         first_name: firstName,
         last_name: lastName,
         username: username,
@@ -29,10 +29,15 @@ function RegisterPage({ onRegister }) {
         password,
       });
 
-      localStorage.setItem("token", response.data.token);
-      onRegister(response.data.user);
+      // If the registration is successful, notify the user and redirect to login
+      alert("Registration successful! Please log in."); // Display success message
+      navigate("/login"); // Redirect to the login page
     } catch (err) {
-      setError("Registration failed, please try again.");
+      if (err.response && err.response.status === 400) {
+        setError("A user with this username or email already exists.");
+      } else {
+        setError("Registration failed, please try again.");
+      }
     }
   };
 

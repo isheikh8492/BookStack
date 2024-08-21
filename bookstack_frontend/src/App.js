@@ -11,6 +11,7 @@ import BookList from "./components/Books/BookList";
 import Footer from "./components/Footer";
 import LoginPage from "./components/Auth/LoginPage";
 import RegisterPage from "./components/Auth/RegisterPage";
+import { API_BASE_URL } from "./constants/util";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -22,18 +23,15 @@ function App() {
       const fetchUserInfo = async () => {
         try {
           const userResponse = await axios.get(
-            "http://127.0.0.1:8000/api/user/",
+            "http://localhost:8000/api/user/",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
 
-          const booksResponse = await axios.get(
-            "http://127.0.0.1:8000/api/books/",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const booksResponse = await axios.get("http://localhost:8000/api/books/", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
           setUser({ ...userResponse.data, books: booksResponse.data });
         } catch (err) {

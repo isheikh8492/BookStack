@@ -11,7 +11,7 @@ function LoginPage({ onLogin }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/token/", {
+      const response = await axios.post("http://localhost:8000/api/token/", {
         username,
         password,
       });
@@ -19,7 +19,7 @@ function LoginPage({ onLogin }) {
       localStorage.setItem("token", response.data.access);
 
       // Fetch user info immediately after logging in
-      const userResponse = await axios.get("http://127.0.0.1:8000/api/user/", {
+      const userResponse = await axios.get("http://localhost:8000/api/user/", {
         headers: { Authorization: `Bearer ${response.data.access}` },
       });
 
