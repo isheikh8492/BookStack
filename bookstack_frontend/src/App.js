@@ -11,7 +11,7 @@ import BookList from "./components/Books/BookList";
 import Footer from "./components/Footer";
 import LoginPage from "./components/Auth/LoginPage";
 import RegisterPage from "./components/Auth/RegisterPage";
-import { API_BASE_URL } from "./constants/util";
+import { REACT_APP_DJANGO_URL } from "./constants/utils";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,13 +23,13 @@ function App() {
       const fetchUserInfo = async () => {
         try {
           const userResponse = await axios.get(
-            "http://localhost:8000/api/user/",
+            `${REACT_APP_DJANGO_URL}/api/user/`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
 
-          const booksResponse = await axios.get("http://localhost:8000/api/books/", {
+          const booksResponse = await axios.get(`${REACT_APP_DJANGO_URL}/api/books/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 

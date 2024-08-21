@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { REACT_APP_DJANGO_URL } from "../../constants/utils";
 
 function LoginPage({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ function LoginPage({ onLogin }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/token/", {
+      const response = await axios.post(`${REACT_APP_DJANGO_URL}/api/token/`, {
         username,
         password,
       });
@@ -19,7 +20,7 @@ function LoginPage({ onLogin }) {
       localStorage.setItem("token", response.data.access);
 
       // Fetch user info immediately after logging in
-      const userResponse = await axios.get("http://localhost:8000/api/user/", {
+      const userResponse = await axios.get(`${REACT_APP_DJANGO_URL}/api/user/`, {
         headers: { Authorization: `Bearer ${response.data.access}` },
       });
 

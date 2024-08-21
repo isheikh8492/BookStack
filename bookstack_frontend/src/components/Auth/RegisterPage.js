@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { REACT_APP_DJANGO_URL } from "../../constants/utils";
 
 function RegisterPage({ onRegister }) {
   const [firstName, setFirstName] = useState("");
@@ -21,7 +22,7 @@ function RegisterPage({ onRegister }) {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/register/", {
+      const response = await axios.post(`${REACT_APP_DJANGO_URL}/api/register/`, {
         first_name: firstName,
         last_name: lastName,
         username: username,

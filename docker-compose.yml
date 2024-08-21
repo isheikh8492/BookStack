@@ -16,6 +16,8 @@ services:
     build: ./bookstack_frontend
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     volumes:
       - ./bookstack_frontend:/app
 
