@@ -29,9 +29,13 @@ function App() {
             }
           );
 
+          console.log(userResponse.data);
+
           const booksResponse = await axios.get(`${REACT_APP_DJANGO_URL}/api/books/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
+
+          console.log(booksResponse.data);
 
           setUser({ ...userResponse.data, books: booksResponse.data });
         } catch (err) {

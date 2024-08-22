@@ -108,11 +108,11 @@ WSGI_APPLICATION = 'bookstack_backend.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "bookstack_db"),
-        "USER": os.getenv("POSTGRES_USER", "bookstack_admin"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "B00k$tack123"),
-        "HOST": os.getenv("DB_HOST", "db"),
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "NAME": os.getenv("DJANGO_DB_NAME"),
+        "USER": os.getenv("DJANGO_DB_USER"),
+        "PASSWORD": os.getenv("DJANGO_DB_PASSWORD"),
+        "HOST": os.getenv("DJANGO_DB_HOST"),
+        "PORT": "5432",
     }
 }
 

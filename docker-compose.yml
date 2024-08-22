@@ -8,18 +8,27 @@ services:
     volumes:
       - ./bookstack_backend:/app
     env_file:
-      - .env
+      - ./bookstack_backend/.env
     depends_on:
       - db
+    environment:
+      - DJANGO_DB_HOST=db  # Ensure that the backend knows how to connect to the db service
+      - DJANGO_DB_NAME=bookstack_db
+      - DJANGO_DB_USER=bookstack_admin
+      - DJANGO_DB_PASSWORD=B00k$tack123
+    networks:
+      - bookstack_network
 
   frontend:
     build: ./bookstack_frontend
     ports:
       - "3000:3000"
     env_file:
-      - .env
+      - ./bookstack_frontend/.env
     volumes:
       - ./bookstack_frontend:/app
+    networks:
+      - bookstack_network
 
   db:
     image: postgres:13
@@ -29,6 +38,12 @@ services:
       POSTGRES_PASSWORD: B00k$tack123
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bookstack_network
 
 volumes:
   postgres_data:
+
+networks:
+  bookstack_network:
+    driver: bridge
